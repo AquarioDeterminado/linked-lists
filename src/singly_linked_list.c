@@ -11,7 +11,6 @@ struct List_ {
     Node head;
     Node tail;
     int size;
-    Node current;
 };
 
 /**
@@ -23,7 +22,6 @@ List list_create() {
     List list = malloc(sizeof(struct List_));
     list->head = NULL;
     list->tail = NULL;
-    list->current = NULL;
     list->size = 0;
     return list;
 }
@@ -38,13 +36,15 @@ List list_create() {
  */
 void list_destroy(List list, void (*free_element)(void*)) {
     Node node = list->head;
-    Node next = NULL;
-    while(true){
-        next = node->next;
-        free_element(node->element);
+    while(node != NULL) {
+        Node next = node->next;
+        if(free_element != NULL) {
+            free_element(node->element);
+        }
         free(node);
         node = next;
     }
+    free(list);
 }
 
 /**
