@@ -74,7 +74,7 @@ size_t list_size(List list) {
  * @return void* The first element of the list.
  */
 void* list_get_first(List list) {
-    if(list_is_empty(list)) {
+    if (list_is_empty(list)) {
         return NULL;
     }
     return list->head->element;
@@ -123,12 +123,14 @@ void* list_get(List list, int position) {
  * @return int The position in the list of the first occurrence of the specified element, or -1 if the specified element does not occur in the list.
  */
 int list_find(List list, bool (*equal)(void*, void*), void* element) {
-    int position = 0;
     Node node = list->head;
-    while (!node){
-        if(equal(element, node->element) return position;
-        position++;
+    int x = 0;
+    while(node != NULL){
+        if(equal(node->element, element)){
+            return x;
+        }
         node = node->next;
+        x++;
     }
     return -1;
 }
@@ -163,7 +165,7 @@ void list_insert_first(List list, void* element) {
     node->element = element;
     node->next = list->head;
     list->head = node;
-    if(list_is_empty(list)) {
+    if (list_is_empty(list)) {
         list->tail = list->head;
         // tail = node;
     }
@@ -221,7 +223,24 @@ void* list_remove_first(List list) {
  * @return void* The element at the last position in the list.
  */
 void* list_remove_last(List list) {
-    return NULL;
+    if(list_is_empty(list)) {
+        return NULL;
+    }
+    Node node = list->head;
+    Node prev = NULL;
+    while (node->next != NULL) {
+        prev = node;
+        node = node->next;
+    }
+    list->tail = prev;
+    list->size--;
+    if(list_is_empty(list)) {
+        list->head = list->tail;
+    }
+    list->tail->next = NULL;
+    void* element = node->element;
+    free(node);
+    return element;
 }
 
 /**
