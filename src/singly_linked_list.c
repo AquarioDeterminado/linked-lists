@@ -437,7 +437,7 @@ int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void 
  * @param list2 The second linked list.
  * @return List The resulting from the join of two lists.
  */
-List list_join(List list1, List list2) {
+List list_join(List list1, List list2) { //O(1)
     list1->tail->next = list2->head
     list1->size += list2->size;
     free(list2);
@@ -450,8 +450,12 @@ List list_join(List list1, List list2) {
  * @param list The linked list.
  * @param print_element The function to print the elements of the list.
  */
-void list_print(List list, void (*print_element)(void* element)) {
-    return NULL;
+void list_print(List list, void (*print_element)(void* element)){
+    Node node = list->head;
+    while(node != NULL){
+        print_element(node->element);
+        node = node->next;
+    }
 }
 
 /**
