@@ -500,7 +500,12 @@ List list_get_sublist(List list, int indexes[], int count) {
  * @return List A list with the result of the execution of the function func with each element of the list as parameter.
  */
 List list_map(List list, void* (*func)(void*)) {
-    return NULL;
+    Node node = list->head;
+    List finalList = list_create();
+    while(node != NULL){
+        list_insert_last(finalList, func(node->element));
+    }
+    return finalList;
 }
 
 /**
