@@ -515,6 +515,13 @@ List list_map(List list, void* (*func)(void*)) {
  * @param func The boolean function to apply to each element of the list.
  * @return List A list with the elements that return true when applied with the given function.
  */
-List list_filter(List list, bool (*func)(void*)) {
-    return NULL;
+List list_filter(List list, bool (*func)(void*)) { //O(n)
+    Node node = list->head;
+    List finalList = list_create();
+    while(node != NULL){
+        if( func(node->element)){
+            list_insert_last(finalList, node->element);
+        }
+    }
+    return finalList;
 }
