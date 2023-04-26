@@ -438,7 +438,10 @@ int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void 
  * @return List The resulting from the join of two lists.
  */
 List list_join(List list1, List list2) {
-    return NULL;
+    list1->tail->next = list2->head
+    list1->size += list2->size;
+    free(list2);
+    return list1;
 }
 
 /**
