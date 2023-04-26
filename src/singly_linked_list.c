@@ -206,7 +206,7 @@ void list_insert_last(List list, void* element) {
  */
 void list_insert(List list, void* element, int position) {
 
-    if(position > list_size(list)){ return
+    if(position > list_size(list) || position < 0){ return
 
     }else if(position == 0){
         list_insert_first(list, element);
