@@ -488,6 +488,7 @@ List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
  * @return List A list with the elements in the given array of unordered indexes.
  */
 List list_get_sublist(List list, int indexes[], int count) {
+    //Ordenar primeiro os indexes
     return NULL;
 }
 
