@@ -360,8 +360,8 @@ int list_count_all(List list, bool (*equal)(void*, void*), void* element) { //O(
     Node node = list->head;
     int counter = 0;
     while(node != NULL){
-        if(equal(element; node->element)){
-            counter+++;
+        if(equal(element, node->element)){
+            counter++;
         }
         node = node->next;
     }
@@ -378,7 +378,16 @@ int list_count_all(List list, bool (*equal)(void*, void*), void* element) { //O(
  * @return int The number of occurrences on an element.
  */
 int list_remove_all(List list, bool (*equal_element)(void*, void*), void (*free_element)(void*), void* element) {
-    return NULL;
+    Node node = list->head;
+    int counter = 0;
+    while(node != NULL){
+        if(equal_element(element, node->element)){
+            free_element(node->element);
+            counter++;
+        }
+        node = node->next;
+    }
+    return counter;
 }
 
 /**
