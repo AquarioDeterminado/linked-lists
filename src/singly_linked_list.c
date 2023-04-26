@@ -103,9 +103,10 @@ void* list_get_last(List list) {
  * @return void* The element at the specified position in the list.
  */
 void* list_get(List list, int position) {
-    Node node = list->head;
 
-    if(position > lits->size) return NULL;
+    if(position > list_size(list) || position < 0) return;
+
+    Node node = list->head;
 
     for(position; position > 0; position--){
         node = node->next;
