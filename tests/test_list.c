@@ -323,7 +323,7 @@ int main(void) {
     RUN_TEST(test_list_size);
     RUN_TEST(test_list_get_first);
     RUN_TEST(test_list_get_last);
-    // RUN_TEST(test_list_get);
+    RUN_TEST(test_list_get);
     RUN_TEST(test_list_find);
     RUN_TEST(test_list_insert_first);
     RUN_TEST(test_list_insert_last);
