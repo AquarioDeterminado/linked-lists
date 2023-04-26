@@ -238,7 +238,17 @@ void list_insert(List list, void* element, int position) {
  * @return void* The element at the first position in the list.
  */
 void* list_remove_first(List list) {
-    return NULL;
+    if(list_is_empty(list)) {
+        return NULL;
+    }
+
+    void *element = NULL;
+    Node node = list->head;
+    list->head = node->next;
+    element = node->element;
+    free(node->element);
+    free(node);
+    return element;
 }
 
 /**
