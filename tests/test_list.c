@@ -330,18 +330,19 @@ int main(void) {
     RUN_TEST(test_list_insert);
     RUN_TEST(test_list_remove_first);
     RUN_TEST(test_list_remove_last);
-    // RUN_TEST(test_list_remove);
-    // RUN_TEST(test_list_make_empty);
-    // RUN_TEST(test_list_to_array);
+    RUN_TEST(test_list_remove);
+    RUN_TEST(test_list_make_empty);
+    RUN_TEST(test_list_to_array);
     // RUN_TEST(test_list_make_empty_free_elements);
-    // RUN_TEST(test_list_count_all);
-    // RUN_TEST(test_list_remove_all);
+    RUN_TEST(test_list_count_all);
+    RUN_TEST(test_list_remove_all);
     // RUN_TEST(test_list_remove_all_custom_free);
     RUN_TEST(test_list_remove_duplicates);
-    // RUN_TEST(test_list_join);
-    // RUN_TEST(test_list_get_sublist_between);
+    RUN_TEST(test_list_join);
+    // RUN_TEST(test_list_print); //falta fazer o teste
+    RUN_TEST(test_list_get_sublist_between);
     // RUN_TEST(test_list_get_sublist);
-    // RUN_TEST(test_list_map);
-    // RUN_TEST(test_list_filter);
+    RUN_TEST(test_list_map);
+    RUN_TEST(test_list_filter);
     return UNITY_END();
 }
