@@ -205,7 +205,30 @@ void list_insert_last(List list, void* element) {
  * @param position The position at which to insert the specified element.
  */
 void list_insert(List list, void* element, int position) {
-    return NULL;
+
+    if(position > list_size(list)){ return
+
+    }else if(position == 0){
+        list_insert_first(list, element);
+
+    }else if(position + 1 == list_size(list)){
+        list_insert_last(list, element)
+
+    } else {
+
+        Node node = malloc(sizeof(struct Node_));
+        node->element = element;
+        Node prevNode = list->head;
+        Node nextNode = NULL;
+
+        for (position; position - 1 > 0; position--) {
+            prevNode = prevNode->next;
+        }
+
+        nextNode = prevNode->next;
+        prevNode->next = node;
+        node->next = nextNode;
+    }
 }
 
 /**
