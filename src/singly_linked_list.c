@@ -356,8 +356,16 @@ void list_to_array(List list, void** out_array) {
  * @param element The element to search for.
  * @return int The number of occurrences on an element.
  */
-int list_count_all(List list, bool (*equal)(void*, void*), void* element) {
-    return NULL;
+int list_count_all(List list, bool (*equal)(void*, void*), void* element) { //O(n)
+    Node node = list->head;
+    int counter = 0;
+    while(node != NULL){
+        if(equal(element; node->element)){
+            counter+++;
+        }
+        node = node->next;
+    }
+    return counter;
 }
 
 /**
