@@ -84,6 +84,20 @@ void* list_get(List list, int position);
 int list_find(List list, bool (*equal)(void*, void*), void* element);
 
 /**
+ *
+ * @param list
+ */
+void list_iterator_start(list list);
+
+/**
+ *
+ * @param list
+ * @return
+ */
+void *get_iterator_next(list list);
+
+
+/**
  * @brief Inserts the specified element at the first position in the list.
  *
  * @param list The linked list.

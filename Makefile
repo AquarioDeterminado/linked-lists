@@ -1,4 +1,4 @@
-BUILD:=release
++BUILD:=release
 BUILD:=debug
 BUILD:=debug_cov
 

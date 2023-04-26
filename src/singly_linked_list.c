@@ -11,6 +11,7 @@ struct List_ {
     Node head;
     Node tail;
     int size;
+    Node current;
 };
 
 /**
@@ -22,6 +23,7 @@ List list_create() {
     List list = malloc(sizeof(struct List_));
     list->head = NULL;
     list->tail = NULL;
+    list->current = NULL;
     list->size = 0;
     return list;
 }
@@ -35,7 +37,14 @@ List list_create() {
  * @param free_element The function to free the elements of the list.
  */
 void list_destroy(List list, void (*free_element)(void*)) {
-    return NULL;
+    Node node = list->head;
+    Node next = NULL;
+    while(true){
+        next = node->next;
+        free_element(node->element);
+        free(node);
+        node = next;
+    }
 }
 
 /**
@@ -65,7 +74,7 @@ size_t list_size(List list) {
  * @return void* The first element of the list.
  */
 void* list_get_first(List list) {
-    return NULL;
+    return list->head->element;
 }
 
 /**
@@ -91,7 +100,13 @@ void* list_get_last(List list) {
  * @return void* The element at the specified position in the list.
  */
 void* list_get(List list, int position) {
-    return NULL;
+    Node node = list->head;
+    while (position > 0) {
+        node = node->next;
+        position--;
+    }
+
+    return node->element;
 }
 
 /**
@@ -105,7 +120,33 @@ void* list_get(List list, int position) {
  * @return int The position in the list of the first occurrence of the specified element, or -1 if the specified element does not occur in the list.
  */
 int list_find(List list, bool (*equal)(void*, void*), void* element) {
-    return NULL;
+    int position = 0;
+    Node node = list->head;
+    while (!node){
+        if(equal(element, node->element) return position;
+        position++;
+        node = node->next;
+    }
+    return -1;
+}
+
+/**
+ *
+ * @param list
+ */
+void list_iterator_start(List list){
+    list->current = list->head;
+}
+
+/**
+ *
+ * @param list
+ * @return
+ */
+void *get_iterator_next(List list){
+    Node node = list->current;
+    list->current = node->next
+    return node->element;
 }
 
 /**
