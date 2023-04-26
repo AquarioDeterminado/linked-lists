@@ -18,7 +18,7 @@ struct List_ {
  *
  * @return List The new list.
  */
-List list_create() {
+List list_create() { //O(1)
     List list = malloc(sizeof(struct List_));
     list->head = NULL;
     list->tail = NULL;
@@ -34,7 +34,7 @@ List list_create() {
  * @param list The list to destroy.
  * @param free_element The function to free the elements of the list.
  */
-void list_destroy(List list, void (*free_element)(void*)) {
+void list_destroy(List list, void (*free_element)(void*)) { //O(n)
     Node node = list->head;
     while (node != NULL) {
         Node next = node->next;
@@ -53,7 +53,7 @@ void list_destroy(List list, void (*free_element)(void*)) {
  * @param list The linked list.
  * @return true iff the list contains no elements.
  */
-bool list_is_empty(List list) {
+bool list_is_empty(List list) { //O(1)
     return list->size == 0;
 }
 
@@ -63,7 +63,7 @@ bool list_is_empty(List list) {
  * @param list The linked list.
  * @return size_t The number of elements in the list.
  */
-size_t list_size(List list) {
+size_t list_size(List list) { //O(1)
     return list->size;
 }
 
@@ -73,7 +73,7 @@ size_t list_size(List list) {
  * @param list The linked list.
  * @return void* The first element of the list.
  */
-void* list_get_first(List list) {
+void* list_get_first(List list) { //O(1)
     if (list_is_empty(list)) {
         return NULL;
     }
@@ -86,7 +86,7 @@ void* list_get_first(List list) {
  * @param list The linked list.
  * @return void* The last element of the list.
  */
-void* list_get_last(List list) {
+void* list_get_last(List list) { //O(1)
     if (list_is_empty(list)) {
         return NULL;
     }
@@ -102,7 +102,7 @@ void* list_get_last(List list) {
  * @param position The position of the element to return.
  * @return void* The element at the specified position in the list.
  */
-void* list_get(List list, int position) {
+void* list_get(List list, int position) { //O(n)
 
     if(position > list_size(list) || position < 0) return;
 
@@ -125,7 +125,7 @@ void* list_get(List list, int position) {
  * @param element The element to search for.
  * @return int The position in the list of the first occurrence of the specified element, or -1 if the specified element does not occur in the list.
  */
-int list_find(List list, bool (*equal)(void*, void*), void* element) {
+int list_find(List list, bool (*equal)(void*, void*), void* element) { //O(n)
     Node node = list->head;
     int x = 0;
     while (node != NULL) {
@@ -163,7 +163,7 @@ void *get_iterator_next(List list){
  * @param list The linked list.
  * @param element The element to insert.
  */
-void list_insert_first(List list, void* element) {
+void list_insert_first(List list, void* element) { //O(1)
     Node node = malloc(sizeof(struct Node_));
     node->element = element;
     node->next = list->head;
@@ -181,7 +181,7 @@ void list_insert_first(List list, void* element) {
  * @param list The linked list.
  * @param element The element to insert.
  */
-void list_insert_last(List list, void* element) {
+void list_insert_last(List list, void* element) { //O(1)
     Node node = malloc(sizeof(struct Node_));
     node->element = element;
     node->next = NULL;
@@ -205,7 +205,7 @@ void list_insert_last(List list, void* element) {
  * @param element The element to insert.
  * @param position The position at which to insert the specified element.
  */
-void list_insert(List list, void* element, int position) {
+void list_insert(List list, void* element, int position) { //O(n)
 
     if(position > list_size(list) || position < 0){ return
 
@@ -238,17 +238,19 @@ void list_insert(List list, void* element, int position) {
  * @param list The linked list.
  * @return void* The element at the first position in the list.
  */
-void* list_remove_first(List list) {
+void* list_remove_first(List list) { //O(1)
     if(list_is_empty(list)) {
         return NULL;
     }
 
-    void *element = NULL;
     Node node = list->head;
     list->head = node->next;
-    element = node->element;
+
+    void *element = node->element;
+
     free(node->element);
     free(node);
+
     return element;
 }
 
@@ -258,7 +260,7 @@ void* list_remove_first(List list) {
  * @param list The linked list.
  * @return void* The element at the last position in the list.
  */
-void* list_remove_last(List list) {
+void* list_remove_last(List list) { //O(n)
     if(list_is_empty(list)) {
         return NULL;
     }
@@ -288,8 +290,32 @@ void* list_remove_last(List list) {
  * @param position The position of the element to remove.
  * @return void* The element at the specified position in the list.
  */
-void* list_remove(List list, int position) {
-    return NULL;
+void* list_remove(List list, int position) { //O(n)
+
+
+    if ( position < 0 || position >= list_size(list)) return NULL;
+
+    void *element = NULL
+    else if (position == 0) element = list_remove_first(list);
+    else if (position == list_size(lsit) - 1) element = list_remove_last(list);
+    else {
+        Node nodePrev = list->head;
+        Node node = NULL;
+
+        //Encontra a posição
+        for (position; position - 1 > 0; position--) {
+            nodePrev = node->next;
+        }
+
+        //Guarda o node a eliminar
+        node = nodePrev->next;
+        element = node->element;
+        nodePrev->next = node->next
+
+        void *element = node->element;
+        free(node);
+    }
+    return element;
 }
 
 /**
@@ -298,8 +324,13 @@ void* list_remove(List list, int position) {
  * @param list The linked list.
  * @param free_element The function to free the elements of the list.
  */
-void list_make_empty(List list, void (*free_element)(void*)) {
-    return NULL;
+void list_make_empty(List list, void (*free_element)(void*)) { //O(n)
+    Node node = list->head;
+    while(node != NULL){
+        free_element(node->element);
+        node->element = NULL;
+        node = node->next;
+    }
 }
 
 /**
@@ -309,7 +340,12 @@ void list_make_empty(List list, void (*free_element)(void*)) {
  * @param out_array The array to fill with the elements of the list.
  */
 void list_to_array(List list, void** out_array) {
-    return NULL;
+    Node node = list->head;
+
+    for(int a = 0; node != NULL; a++){
+        out_array[a] = node->element;
+        node = node->next;
+    }
 }
 
 /**
