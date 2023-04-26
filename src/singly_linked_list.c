@@ -466,8 +466,15 @@ void list_print(List list, void (*print_element)(void* element)){
  * @param end_idx The index of the last element to include.
  * @return List A list with the elements from start_idx to end_idx.
  */
-List list_get_sublist_between(List list, int start_idx, int end_idx) {
-    return NULL;
+List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
+    List list2 = list_create();
+    Node node = list->head
+    for(int CP; CP >= end_idx; CP++){
+        if (currentPosition >= start_idx){
+            list_insert_last(list2, node->element);
+        }
+    }
+    return list2;
 }
 
 /**
