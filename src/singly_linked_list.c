@@ -140,7 +140,7 @@ int list_find(List list, bool (*equal)(void*, void*), void* element) { //O(n)
         }
         node = node->next;
         x++;
-    }
+    } //jhbjhgjhfjv
     return -1;
 }
 
@@ -271,20 +271,24 @@ void* list_remove_last(List list) { //O(n)
     if(list_is_empty(list)) {
         return NULL;
     }
+
+    Node Prev = NULL;
+
     Node node = list->head;
-    Node prev = NULL;
     while (node->next != NULL) {
-        prev = node;
+        Prev = node;
         node = node->next;
     }
-    list->tail = prev;
-    list->size--;
-    if(list_is_empty(list)) {
-        list->head = list->tail;
-    }
-    list->tail->next = NULL;
-    void* element = node->element;
+
+    //Eliminar node
+    void *element = node->element;
     free(node);
+
+    //estrago
+    list->tail = Prev;
+    if(Prev != NULL) Prev->next = NULL;
+    list->size--;
+
     return element;
 }
 
@@ -299,20 +303,21 @@ void* list_remove_last(List list) { //O(n)
  */
 void* list_remove(List list, int position) { //O(n)
 
-
     if ( position < 0 || position >= list_size(list)) return NULL;
 
     void *element = NULL;
 
     if (position == 0) element = list_remove_first(list);
     else if (position == list_size(list) - 1) element = list_remove_last(list);
+
     else {
         Node nodePrev = list->head;
         Node node = NULL;
 
         //Encontra a posição
-        for (position; position - 1 > 0; position--) {
+        while(position - 1 > 0) {
             nodePrev = node->next;
+            position--;
         }
 
         //Guarda o node a eliminar
@@ -321,6 +326,7 @@ void* list_remove(List list, int position) { //O(n)
         nodePrev->next = node->next;
 
         free(node);
+        list->size--;
     }
     return element;
 }
