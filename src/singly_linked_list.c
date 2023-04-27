@@ -1,5 +1,5 @@
 #include "list.h"
-
+//hello johny 
 typedef struct Node_* Node;
 
 struct Node_ {
