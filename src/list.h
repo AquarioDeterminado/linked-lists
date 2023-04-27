@@ -87,14 +87,14 @@ int list_find(List list, bool (*equal)(void*, void*), void* element);
  *
  * @param list
  */
-void list_iterator_start(list list);
+void list_iterator_start(List list);
 
 /**
  *
  * @param list
  * @return
  */
-void *get_iterator_next(list list);
+void *get_iterator_next(List list);
 
 
 /**

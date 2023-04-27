@@ -1,4 +1,5 @@
 #include "list.h"
+#include <stdlib.h>
 
 typedef struct Node_* Node;
 
@@ -11,6 +12,7 @@ struct List_ {
     Node head;
     Node tail;
     int size;
+    Node current;
 };
 
 /**
@@ -104,7 +106,7 @@ void* list_get_last(List list) { //O(1)
  */
 void* list_get(List list, int position) { //O(n)
 
-    if(position > list_size(list) || position < 0) return;
+    if(position > list_size(list) || position < 0) return NULL;
 
     Node node = list->head;
 
@@ -112,7 +114,11 @@ void* list_get(List list, int position) { //O(n)
         node = node->next;
     }
 
-    return node->element;
+    if(node == NULL){
+        return NULL;
+    } else {
+        return node->element;
+    }
 }
 
 /**
@@ -153,7 +159,7 @@ void list_iterator_start(List list){
  */
 void *get_iterator_next(List list){
     Node node = list->current;
-    list->current = node->next
+    list->current = node->next;
     return node->element;
 }
 
@@ -207,13 +213,13 @@ void list_insert_last(List list, void* element) { //O(1)
  */
 void list_insert(List list, void* element, int position) { //O(n)
 
-    if(position > list_size(list) || position < 0){ return
+    if(position > list_size(list) || position < 0){ return;
 
     }else if(position == 0){
         list_insert_first(list, element);
 
-    }else if(position + 1 == list_size(list)){
-        list_insert_last(list, element)
+    }else if(position == list_size(list)){
+        list_insert_last(list, element);
 
     } else {
 
@@ -229,6 +235,7 @@ void list_insert(List list, void* element, int position) { //O(n)
         nextNode = prevNode->next;
         prevNode->next = node;
         node->next = nextNode;
+        list->size++;
     }
 }
 
@@ -248,8 +255,8 @@ void* list_remove_first(List list) { //O(1)
 
     void *element = node->element;
 
-    free(node->element);
     free(node);
+    list->size--;
 
     return element;
 }
@@ -295,9 +302,10 @@ void* list_remove(List list, int position) { //O(n)
 
     if ( position < 0 || position >= list_size(list)) return NULL;
 
-    void *element = NULL
-    else if (position == 0) element = list_remove_first(list);
-    else if (position == list_size(lsit) - 1) element = list_remove_last(list);
+    void *element = NULL;
+
+    if (position == 0) element = list_remove_first(list);
+    else if (position == list_size(list) - 1) element = list_remove_last(list);
     else {
         Node nodePrev = list->head;
         Node node = NULL;
@@ -310,9 +318,8 @@ void* list_remove(List list, int position) { //O(n)
         //Guarda o node a eliminar
         node = nodePrev->next;
         element = node->element;
-        nodePrev->next = node->next
+        nodePrev->next = node->next;
 
-        void *element = node->element;
         free(node);
     }
     return element;
@@ -438,7 +445,7 @@ int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void 
  * @return List The resulting from the join of two lists.
  */
 List list_join(List list1, List list2) { //O(1)
-    list1->tail->next = list2->head
+    list1->tail->next = list2->head;
     list1->size += list2->size;
     free(list2);
     return list1;
@@ -468,9 +475,9 @@ void list_print(List list, void (*print_element)(void* element)){
  */
 List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
     List list2 = list_create();
-    Node node = list->head
+    Node node = list->head;
     for(int CP; CP >= end_idx; CP++){
-        if (currentPosition >= start_idx){
+        if (CP >= start_idx){
             list_insert_last(list2, node->element);
         }
     }
