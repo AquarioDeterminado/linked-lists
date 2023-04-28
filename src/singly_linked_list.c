@@ -403,26 +403,35 @@ int list_remove_all(List list, bool (*equal_element)(void*, void*), void (*free_
 
     while(node != NULL){
         if(equal_element(element, node->element)) {
+            //aumenta o counter
+            counter++;
 
-            node->next = nodeNext;
+            //Guarda o seguinte
+            nodeNext = node->next;
 
-            if (nodePrev != NULL) {
+            if(nodePrev != NULL){
                 nodePrev->next = nodeNext;
-            }  else list->head = nodeNext;
+            }
 
-            if(nodeNext == NULL) list->tail = nodePrev;
+            if(node == list->head){
+                list->head = nodeNext;
+            } else if (node == list->tail) {
+                list->tail = nodePrev ;
+            }
 
-            //apaha node
+            //apaga node
             if (free_element != NULL) free_element(node->element);
+            node->element = NULL;
+            node->next = NULL;
             free(node);
             list->size--;
 
-            node = nodePrev->next;
+            node = nodeNext;
 
-            counter++;
         } else {
             nodePrev = node;
-            node = node->next;
+            nodeNext = node->next;
+            node = nodeNext;
         }
     }
     return counter;
@@ -516,10 +525,11 @@ void list_print(List list, void (*print_element)(void* element)){
 List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
     List list2 = list_create();
     Node node = list->head;
-    for(int CP; CP >= end_idx; CP++){
+    for(int CP = 0; CP <= end_idx; CP++){
         if (CP >= start_idx){
             list_insert_last(list2, node->element);
         }
+        node = node->next;
     }
     return list2;
 }
