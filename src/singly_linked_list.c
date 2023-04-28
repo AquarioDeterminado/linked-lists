@@ -38,8 +38,9 @@ List list_create() { //O(1)
  */
 void list_destroy(List list, void (*free_element)(void*)) { //O(n)
     Node node = list->head;
+    Node next = NULL;
     while (node != NULL) {
-        Node next = node->next;
+        next = node->next;
         if (free_element != NULL) {
             free_element(node->element);
         }
@@ -140,7 +141,7 @@ int list_find(List list, bool (*equal)(void*, void*), void* element) { //O(n)
         }
         node = node->next;
         x++;
-    } //jhbjhgjhfjv
+    }
     return -1;
 }
 
@@ -316,7 +317,7 @@ void* list_remove(List list, int position) { //O(n)
 
         //Encontra a posição
         while(position - 1 > 0) {
-            nodePrev = node->next;
+            nodePrev = nodePrev->next;
             position--;
         }
 
@@ -339,11 +340,14 @@ void* list_remove(List list, int position) { //O(n)
  */
 void list_make_empty(List list, void (*free_element)(void*)) { //O(n)
     Node node = list->head;
+
     while(node != NULL){
-        free_element(node->element);
+        if(free_element != NULL) free_element(node->element);
         node->element = NULL;
         node = node->next;
     }
+    list->current = NULL;
+    list->size = 0;
 }
 
 /**
@@ -391,14 +395,35 @@ int list_count_all(List list, bool (*equal)(void*, void*), void* element) { //O(
  * @return int The number of occurrences on an element.
  */
 int list_remove_all(List list, bool (*equal_element)(void*, void*), void (*free_element)(void*), void* element) {
+
     Node node = list->head;
+    Node nodePrev = NULL;
+    Node nodeNext = NULL;
     int counter = 0;
+
     while(node != NULL){
-        if(equal_element(element, node->element)){
-            free_element(node->element);
+        if(equal_element(element, node->element)) {
+
+            node->next = nodeNext;
+
+            if (nodePrev != NULL) {
+                nodePrev->next = nodeNext;
+            }  else list->head = nodeNext;
+
+            if(nodeNext == NULL) list->tail = nodePrev;
+
+            //apaha node
+            if (free_element != NULL) free_element(node->element);
+            free(node);
+            list->size--;
+
+            node = nodePrev->next;
+
             counter++;
+        } else {
+            nodePrev = node;
+            node = node->next;
         }
-        node = node->next;
     }
     return counter;
 }
@@ -451,10 +476,19 @@ int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void 
  * @return List The resulting from the join of two lists.
  */
 List list_join(List list1, List list2) { //O(1)
-    list1->tail->next = list2->head;
-    list1->size += list2->size;
-    free(list2);
-    return list1;
+    List list3 = list_create();
+    Node node = list1->head;
+    while (node != NULL){
+        list_insert_last(list3, node);
+        node = node->next;
+    }
+
+    node = list2->head;
+    while(node!=NULL){
+        list_insert_last(list3, node);
+        node = node->next;
+    }
+    return list3;
 }
 
 /**
@@ -517,6 +551,7 @@ List list_map(List list, void* (*func)(void*)) {
     List finalList = list_create();
     while(node != NULL){
         list_insert_last(finalList, func(node->element));
+        node = node->next;
     }
     return finalList;
 }
@@ -535,6 +570,7 @@ List list_filter(List list, bool (*func)(void*)) { //O(n)
         if( func(node->element)){
             list_insert_last(finalList, node->element);
         }
+        node  = node->next;
     }
     return finalList;
 }
