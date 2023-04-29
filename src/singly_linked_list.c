@@ -106,20 +106,12 @@ void* list_get_last(List list) { //O(1)
  * @return void* The element at the specified position in the list.
  */
 void* list_get(List list, int position) { //O(n)
-
-    if(position > list_size(list) || position < 0) return NULL;
-
+    if(position >= list_size(list) || position < 0) return NULL;
     Node node = list->head;
-
     for(position; position > 0; position--){
         node = node->next;
     }
-
-    if(node == NULL){
-        return NULL;
-    } else {
-        return node->element;
-    }
+    return node->element;
 }
 
 /**
@@ -146,19 +138,22 @@ int list_find(List list, bool (*equal)(void*, void*), void* element) { //O(n)
 }
 
 /**
+ * @brief Starts the list iterator on the list head
  *
- * @param list
+ * @param list the linked list
  */
-void list_iterator_start(List list){
+void list_iterator_start(List list){ //O(1)
     list->current = list->head;
 }
 
 /**
+ *@brief Continues to iterate through the list
  *
- * @param list
- * @return
+ * @param list the linked list
+ *
+ * @return pointer to the element of the current node
  */
-void *get_iterator_next(List list){
+void *get_iterator_next(List list){ //O(1)
     Node node = list->current;
     list->current = node->next;
     return node->element;
@@ -212,17 +207,15 @@ void list_insert_last(List list, void* element) { //O(1)
  * @param element The element to insert.
  * @param position The position at which to insert the specified element.
  */
-void list_insert(List list, void* element, int position) { //O(n)
+void list_insert(List list, void* element, int position) { //O(n - 1)
 
-    if(position > list_size(list) || position < 0){ return;
-
-    }else if(position == 0){
+    if(position == 0){
         list_insert_first(list, element);
 
     }else if(position == list_size(list)){
         list_insert_last(list, element);
 
-    } else {
+    } else if (position < list_size(list) && position > 0 ){
 
         Node node = malloc(sizeof(struct Node_));
         node->element = element;
@@ -281,11 +274,9 @@ void* list_remove_last(List list) { //O(n)
         node = node->next;
     }
 
-    //Eliminar node
     void *element = node->element;
     free(node);
 
-    //estrago
     list->tail = Prev;
     if(Prev != NULL) Prev->next = NULL;
     list->size--;
@@ -304,18 +295,17 @@ void* list_remove_last(List list) { //O(n)
  */
 void* list_remove(List list, int position) { //O(n)
 
-    if ( position < 0 || position >= list_size(list)) return NULL;
-
     void *element = NULL;
 
     if (position == 0) element = list_remove_first(list);
+
     else if (position == list_size(list) - 1) element = list_remove_last(list);
 
-    else {
+    else if(position > 0 && position < list_size(list)){
         Node nodePrev = list->head;
         Node node = NULL;
 
-        //Encontra a posição
+
         while(position - 1 > 0) {
             nodePrev = nodePrev->next;
             position--;
@@ -346,7 +336,6 @@ void list_make_empty(List list, void (*free_element)(void*)) { //O(n)
         node->element = NULL;
         node = node->next;
     }
-    list->current = NULL;
     list->size = 0;
 }
 
@@ -484,7 +473,7 @@ int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void 
  * @param list2 The second linked list.
  * @return List The resulting from the join of two lists.
  */
-List list_join(List list1, List list2) { //O(1)
+List list_join(List list1, List list2) { //O(n)
     List list3 = list_create();
     Node node = list1->head;
     while (node != NULL){
@@ -525,7 +514,7 @@ void list_print(List list, void (*print_element)(void* element)){
 List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
     List list2 = list_create();
     Node node = list->head;
-    for(int CP = 0; CP <= end_idx; CP++){
+    for(int CP = 0; CP <= end_idx; CP++){ //CP = CurrentPosition//
         if (CP >= start_idx){
             list_insert_last(list2, node->element);
         }
@@ -546,6 +535,11 @@ List list_get_sublist_between(List list, int start_idx, int end_idx) { //O(n)
  */
 List list_get_sublist(List list, int indexes[], int count) {
     //Ordenar primeiro os indexes
+    /*
+     * De forma a não ser O(n^2) se calhar podemos usar uma hash table do tamanho do array de indxs onde a key seria
+     *  a sua posição na nova lista. Assim podemos passar só uma vez na "list" para guardar os nodes e depois
+     *  inseri-los na nova lista .
+     */
     return NULL;
 }
 
